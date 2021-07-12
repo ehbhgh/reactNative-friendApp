@@ -41,6 +41,11 @@ class Index extends PureComponent {
     //是否显示登录页面
     showLogin: true,
     value: '',
+    //倒计时按钮的文本
+    btnText: '重新获取',
+
+    //是否在倒计时中
+    isCountDowning: false,
   };
 
   phoneNumberChange = phoneNumber => {
@@ -65,10 +70,42 @@ class Index extends PureComponent {
       this.setState({
         showLogin: false,
       });
+      //开启定时器
+      this.cuntDown();
     } else {
     }
   };
 
+  //获取验证码定时器
+  cuntDown = () => {
+    if (this.state.isCountDowning) {
+      return;
+    }
+    this.setState({
+      isCountDowning: true,
+    });
+    let seconds = 5;
+    this.setState({
+      btnText: `重新获取${seconds}s`,
+    });
+    let timeInterval = setInterval(() => {
+      seconds--;
+      this.setState({
+        btnText: `重新获取${seconds}s`,
+      });
+      if (seconds === 0) {
+        clearInterval(timeInterval);
+        this.setState({
+          btnText: '重新获取',
+        });
+      }
+    }, 1000);
+  };
+
+  //点击重新获取按钮
+  repGetRoCode = () => {
+    this.cuntDown();
+  };
   //渲染登录页面
   renderLogin = () => {
     const {phoneNumber, phoneValid} = this.state;
@@ -123,7 +160,7 @@ class Index extends PureComponent {
   };
   //渲染验证码页面
   renderVcode = () => {
-    const {phoneNumber, value} = this.state;
+    const {phoneNumber, value, btnText, isCountDowning} = this.state;
     return (
       <View>
         <View>
@@ -162,8 +199,9 @@ class Index extends PureComponent {
             }}>
             <ChangeColorBtn
               style={{borderRadius: pxToDp(20)}}
-              onPress={this.phoneNumberSubmitEditing}>
-              重新获取
+              disabled={isCountDowning}
+              onPress={this.repGetRoCode}>
+              {btnText}
             </ChangeColorBtn>
           </View>
         </View>

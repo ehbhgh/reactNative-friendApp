@@ -25,11 +25,13 @@ class Index extends PureComponent {
   static defaultProps = {
     style: {},
     TextStyle: {},
+    disabled: false,
   };
   render() {
     return (
       <TouchableOpacity
         onPress={this.props.onPress}
+        disabled={this.props.disabled}
         // eslint-disable-next-line react-native/no-inline-styles
         style={{
           width: '100%',
