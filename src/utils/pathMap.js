@@ -3,7 +3,7 @@
  */
 export const BASE_URI = 'http://157.122.54.189:9089';
 
-export const ACCOUNT_LOGIN = '/user/login'; 
+export const ACCOUNT_LOGIN = '/user/login';
 /**
  *  新用户信息注册
  */
